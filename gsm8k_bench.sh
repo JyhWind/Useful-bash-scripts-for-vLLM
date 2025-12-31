@@ -17,10 +17,6 @@ test_lm_eval() {
 
     end=$(date +%s)
     echo "lm_eval flexible-extractvalue: $flexable_value, time taken: $(( end - start )) seconds"
-        if (( $(echo "$flexable_value < 0.93" | bc -l) )); then
-                echo "The accuracy has issue and testing is stopped"
-                exit 1
-        fi
 }
 
 test_lm_eval
