@@ -28,7 +28,7 @@ test_benchmark_serving_range() {
 
 test_benchmark_serving_range 2048 2048 1 11 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
 test_benchmark_serving_range 2048 2048 8 88 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 16 88 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 32 176 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 64 352 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
+test_benchmark_serving_range 2048 2048 16 176 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
+test_benchmark_serving_range 2048 2048 32 352 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
+test_benchmark_serving_range 2048 2048 64 400 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
 test_benchmark_serving_range 2048 2048 128 400 0.8 /data/disk2/hf_models/Qwen3-30B-A3B/
