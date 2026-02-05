@@ -9,6 +9,8 @@ test_benchmark_serving_range() {
     local_output=$2
     local_max_concurrency=$3
     local_num_prompts=$4
+    local_tp_size=1
+    dtype=bfloat16
     local_ratio=0.1
     local_request_rate=inf
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
