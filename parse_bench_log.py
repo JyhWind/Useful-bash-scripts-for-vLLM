@@ -6,7 +6,7 @@ from natsort import natsorted
 parent_dir = "."
 
 csv_headers = [
-    "model", "cardnumer", "datatype", "dataset", "batchsize", "request_rate",
+    "model", "cardnumer", "datatype", "dataset", "request_rate",
     "prompts", "input_len", "output_len", "ratio", "max_concurrency",
     "Successful requests", "Benchmark duration (s)", "Total input tokens", "Total generated tokens",
     "Request throughput (req/s)", "Output token throughput (tok/s)", "Total Token throughput (tok/s)",
@@ -27,7 +27,7 @@ def parse_filename(filename):
             "output_len": parts[10],
             "ratio": parts[12],
             "request_rate": parts[14],
-            "prompts": parts[16]
+            "prompts": parts[16],
             "dataset": parts[17],
             "max_concurrency": parts[19],
         }
@@ -50,7 +50,8 @@ def parse_log_content(parent_dir):
                 if len(key_value) == 2:
                     key = key_value[0].strip()
                     value = key_value[1].strip()
-                    result_data[key] = value
+                    if key in csv_headers:
+                        result_data[key] = value
     except Exception as e:
         print(f"Error reading file {parent_dir}: {e}")
         return None
