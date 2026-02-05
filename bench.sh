@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#model_path=/data/Qwen3-30B-A3B
 ip_addr=127.0.0.1
 port=30002
 
@@ -10,7 +9,7 @@ test_benchmark_serving_range() {
     local_output=$2
     local_max_concurrency=$3
     local_num_prompts=$4
-    model_path=$5
+    model_path=/data/Qwen3-30B-A3B
     local_ratio=0.1
     local_request_rate=inf
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
@@ -27,9 +26,9 @@ test_benchmark_serving_range() {
 }
 
 
-test_benchmark_serving_range 2048 2048 1 11 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 8 88 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 16 176 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 32 352 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 64 400 /data/disk2/hf_models/Qwen3-30B-A3B/
-test_benchmark_serving_range 2048 2048 128 400 /data/disk2/hf_models/Qwen3-30B-A3B/
+test_benchmark_serving_range 2048 2048 1 11
+test_benchmark_serving_range 2048 2048 8 88
+test_benchmark_serving_range 2048 2048 16 176
+test_benchmark_serving_range 2048 2048 32 352
+test_benchmark_serving_range 2048 2048 64 400
+test_benchmark_serving_range 2048 2048 128 400
