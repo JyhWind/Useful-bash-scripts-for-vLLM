@@ -10,9 +10,9 @@ csv_headers = [
     "prompts", "input_len", "output_len", "ratio", "max_concurrency",
     "Successful requests", "Benchmark duration (s)", "Total input tokens", "Total generated tokens",
     "Request throughput (req/s)", "Output token throughput (tok/s)", "Total Token throughput (tok/s)",
-    "Mean TTFT (ms)", "Median TTFT (ms)", "P25 TTFT (ms)", "P50 TTFT (ms)", "P75 TTFT (ms)", "P90 TTFT (ms)", "P95 TTFT (ms)", "P99 TTFT (ms)",
-    "Mean TPOT (ms)", "Median TPOT (ms)", "P25 TPOT (ms)", "P50 TPOT (ms)", "P75 TPOT (ms)", "P90 TPOT (ms)", "P95 TPOT (ms)", "P99 TPOT (ms)",
-    "Mean ITL (ms)", "Median ITL (ms)", "P25 ITL (ms)", "P50 ITL (ms)", "P75 ITL (ms)", "P90 ITL (ms)", "P95 ITL (ms)", "P99 ITL (ms)"
+    "Mean TTFT (ms)", "Median TTFT (ms)", "P90 TTFT (ms)", "P99 TTFT (ms)",
+    "Mean TPOT (ms)", "Median TPOT (ms)", "P90 TPOT (ms)", "P99 TPOT (ms)",
+    "Mean ITL (ms)", "Median ITL (ms)", "P90 ITL (ms)", "P99 ITL (ms)"
 ]
 
 
