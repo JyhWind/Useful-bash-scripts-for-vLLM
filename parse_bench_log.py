@@ -9,7 +9,7 @@ csv_headers = [
     "model", "cardnumer", "datatype", "dataset", "request_rate",
     "prompts", "input_len", "output_len", "ratio", "max_concurrency",
     "Successful requests", "Benchmark duration (s)", "Total input tokens", "Total generated tokens",
-    "Request throughput (req/s)", "Output token throughput (tok/s)", "Total Token throughput (tok/s)",
+    "Request throughput (req/s)", "Output token throughput (tok/s)",
     "Mean TTFT (ms)", "Median TTFT (ms)", "P90 TTFT (ms)", "P99 TTFT (ms)",
     "Mean TPOT (ms)", "Median TPOT (ms)", "P90 TPOT (ms)", "P99 TPOT (ms)",
     "Mean ITL (ms)", "Median ITL (ms)", "P90 ITL (ms)", "P99 ITL (ms)"
