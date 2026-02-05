@@ -2,14 +2,13 @@
 
 ip_addr=127.0.0.1
 port=30002
-
+model_path=/data/Qwen3-30B-A3B
 
 test_benchmark_serving_range() {
     local_input=$1
     local_output=$2
     local_max_concurrency=$3
     local_num_prompts=$4
-    model_path=/data/Qwen3-30B-A3B
     local_ratio=0.1
     local_request_rate=inf
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
