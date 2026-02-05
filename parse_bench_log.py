@@ -18,19 +18,18 @@ csv_headers = [
 
 def parse_filename(filename):
     parts = filename.replace(".log", "").split("_")
-    if len(parts) == 23:
+    if len(parts) == 21:
         return {
             "model": parts[2],
             "cardnumer": parts[4],
             "datatype": parts[6],
-            "dataset": parts[7],
-            "batchsize": parts[9],
-            "input_len": parts[11],
-            "output_len": parts[13],
-            "ratio": parts[15],
-            "max_concurrency": parts[21],
-            "request_rate": parts[17],
-            "prompts": parts[19]
+            "input_len": parts[8],
+            "output_len": parts[10],
+            "ratio": parts[12],
+            "request_rate": parts[14],
+            "prompts": parts[16]
+            "dataset": parts[17],
+            "max_concurrency": parts[19],
         }
     else:
         return None
