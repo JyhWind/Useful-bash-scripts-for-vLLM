@@ -20,7 +20,7 @@ test_benchmark_serving_range() {
     log_name=${log_name_prefix}_$(TZ='Asia/Shanghai' date +%F-%H-%M-%S)
     #log_name=benchmark_serving_${model_path}_batchsize_${local_max_concurrency}_in_${local_input}_out_${local_output}_ratio_${local_len_ratio}_rate_inf_prompts_${local_num_prompts}_$(TZ='Asia/Shanghai' date +%F-%H-%M-%S)
 
-    vllm bench serve --backend vllm --model $model_path --trust-remote-code --host $ip_addr --port $port \
+    vllm bench serve --model $model_path --trust-remote-code --host $ip_addr --port $port \
     --dataset-name random --random-input-len $local_input --random-output-len $local_output --random-range-ratio $local_ratio --max-concurrency $local_max_concurrency\
     --num-prompts $local_num_prompts --request-rate ${local_request_rate} --seed 0 --ignore-eos \
     --save-result --result-filename ${log_name}.json --metric-percentiles 90,99 |& tee ${log_name}.log
