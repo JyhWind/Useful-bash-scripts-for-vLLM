@@ -25,7 +25,7 @@ Help() {
     echo
 }
 
-while getopts hm:c:n:p:d: flag; do
+while getopts hm:b:x:n:p:d:i:o: flag; do
     case $flag in
     h) # display Help
         Help
@@ -82,6 +82,24 @@ test_benchmark_serving_range() {
 
 }
 
+wait_server() {
+    sleep 10
+    while true; do
+        if grep -q "Uvicorn running on" serve*.log; then
+            echo "server is ready"
+            return 0
+        elif grep -q "Application startup complete." serve*.log; then
+            echo "server is ready"
+            return 0
+        else
+            sleep 10
+        fi
+    done
+}
+
+echo "wait server..."
+wait_server
+
 batch_num=(1 8 16 32 64 128)
 for batch in "${batch_num[@]}"; do
   prompt_num=$((11*batch))
@@ -89,5 +107,6 @@ for batch in "${batch_num[@]}"; do
     prompt_num=400
   fi
   test_benchmark_serving_range $input $output $batch $prompt_num
+done
 
 pkill -9 python
