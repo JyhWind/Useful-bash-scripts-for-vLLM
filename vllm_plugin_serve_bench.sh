@@ -68,6 +68,7 @@ test_benchmark_serving_range() {
     dtype=bfloat16
     local_ratio=0.1
     local_request_rate=inf
+    seed=$((date +%s)%10000)
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
 
     model_name=$(basename $model_path)
@@ -78,7 +79,7 @@ test_benchmark_serving_range() {
     vllm bench serve --model $model_path --host $ip_addr --port $port \
     --dataset-name random --random-input-len $local_input --random-output-len $local_output --random-range-ratio $local_ratio --max-concurrency $local_max_concurrency\
     --num-prompts $local_num_prompts --request-rate ${local_request_rate} --seed 0 --ignore-eos \
-    --save-result --result-filename ${log_name}.json --metric-percentiles 90,99 |& tee ${log_name}.log
+    --save-result --result-filename ${log_name}.json --metric-percentiles 90,99 --seed seed |& tee ${log_name}.log
 
 }
 
