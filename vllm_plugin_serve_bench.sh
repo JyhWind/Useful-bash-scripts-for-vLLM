@@ -56,7 +56,7 @@ while getopts hm:b:x:n:p:d:i:o: flag; do
 done
 
 set -x
-vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling &>server.log &
+PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling &>server.log &
 set +x
 
 test_benchmark_serving_range() {
