@@ -110,4 +110,4 @@ for batch in "${batch_num[@]}"; do
   test_benchmark_serving_range $input $output $batch $prompt_num
 done
 
-pkill -9 VLLM::Worker_TP
+pkill -9 VLLM*
