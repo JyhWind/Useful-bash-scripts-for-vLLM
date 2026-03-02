@@ -8,8 +8,8 @@ tensor_parallel_size=1
 port=30002
 dtype=bfloat16
 
-input=1024
-output=1024
+input=2048
+output=2048
 
 Help() {
     echo "vllm_plugin_serve_bench"
