@@ -10,6 +10,7 @@ dtype=bfloat16
 
 input=2048
 output=2048
+local_ratio=0.1
 
 Help() {
     echo "vllm_plugin_serve_bench"
@@ -64,8 +65,6 @@ test_benchmark_serving_range() {
     local_output=$2
     local_max_concurrency=$3
     local_num_prompts=$4
-    dtype=bfloat16
-    local_ratio=0.1
     local_request_rate=inf
     seed=$((date +%s)%10000)
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
