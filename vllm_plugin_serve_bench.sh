@@ -59,11 +59,11 @@ done
 
 if [ $IS_MoE_MODEL -eq 1 ]; then
     set -x
-    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096 --enable-expert-parallel &>server.log &
+    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --async-scheduling --max-num-batched-tokens 4096 --enable-expert-parallel &>server.log &
     set +x
 else
     set -x
-    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096 &>server.log &
+    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --async-scheduling --max-num-batched-tokens 4096 &>server.log &
     set +x
 fi
 
