@@ -2,6 +2,7 @@
 
 ip_addr=127.0.0.1
 model_path=/data/Qwen3-30B-A3B/
+IS_MoE_MODEL=1
 max_num_seqs=128
 max_model_len=10240
 tensor_parallel_size=1
@@ -56,9 +57,15 @@ while getopts hm:b:x:n:p:d:i:o: flag; do
     esac
 done
 
-set -x
-PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096 &>server.log &
-set +x
+if [ $IS_MoE_MODEL -eq 1 ]; then
+    set -x
+    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096 --enable-expert-parallel &>server.log &
+    set +x
+else
+    set -x
+    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096 &>server.log &
+    set +x
+fi
 
 test_benchmark_serving_range() {
     local_input=$1
