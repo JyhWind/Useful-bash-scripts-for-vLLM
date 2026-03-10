@@ -57,15 +57,35 @@ while getopts hm:b:x:n:p:d:i:o: flag; do
     esac
 done
 
-if [ $IS_MoE_MODEL -eq 1 ]; then
+start_server(){
+    CMD_PLG="PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --async-scheduling --max-num-batched-tokens 4096"
+    CONFIG_FILE="${model_path}/config.json"
+    if grep -qF "\"num_experts\"" "${CONFIG_FILE}"; then
+        CMD_PLG="$CMD_PLG --enable-expert-parallel"
+    fi
+    if [ "$dtype" == "fp8" ]; then
+        CMD_PLG="$CMD_PLG --kv-cache-dtype fp8_inc"
+    fi
+    
     set -x
-    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --async-scheduling --max-num-batched-tokens 4096 --enable-expert-parallel &>server.log &
+    eval $CMD_PLG &>server.log &
     set +x
-else
-    set -x
-    PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --async-scheduling --max-num-batched-tokens 4096 &>server.log &
-    set +x
-fi
+}
+
+wait_server() {
+    sleep 10
+    while true; do
+        if grep -q "Uvicorn running on" serve*.log; then
+            echo "server is ready"
+            return 0
+        elif grep -q "Application startup complete." serve*.log; then
+            echo "server is ready"
+            return 0
+        else
+            sleep 10
+        fi
+    done
+}
 
 test_benchmark_serving_range() {
     local_input=$1
@@ -88,20 +108,8 @@ test_benchmark_serving_range() {
 
 }
 
-wait_server() {
-    sleep 10
-    while true; do
-        if grep -q "Uvicorn running on" serve*.log; then
-            echo "server is ready"
-            return 0
-        elif grep -q "Application startup complete." serve*.log; then
-            echo "server is ready"
-            return 0
-        else
-            sleep 10
-        fi
-    done
-}
+echo "start server..."
+start_server
 
 echo "wait server..."
 wait_server
@@ -115,4 +123,5 @@ for batch in "${batch_num[@]}"; do
   test_benchmark_serving_range $input $output $batch $prompt_num
 done
 
+echo "kill server..."
 pkill -9 VLLM*
