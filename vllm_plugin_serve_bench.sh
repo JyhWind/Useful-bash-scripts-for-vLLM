@@ -2,7 +2,6 @@
 
 ip_addr=127.0.0.1
 model_path=/data/Qwen3-30B-A3B/
-IS_MoE_MODEL=1
 max_num_seqs=128
 max_model_len=10240
 tensor_parallel_size=1
