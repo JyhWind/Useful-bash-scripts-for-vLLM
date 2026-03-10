@@ -93,7 +93,8 @@ test_benchmark_serving_range() {
     local_max_concurrency=$3
     local_num_prompts=$4
     local_request_rate=inf
-    seed=$((date +%s)%10000)
+    timestamp=$(date +%s)
+    seed=$((timestamp % 10000))
     echo "running benchmark serving range test, input len: $local_input, output len: $local_output, len ratio: $local_len_ratio, concurrency: $local_max_concurrency"
 
     model_name=$(basename $model_path)
