@@ -58,7 +58,7 @@ while getopts hm:b:x:n:p:d:i:o: flag; do
 done
 
 start_server(){
-    CMD_PLG="PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --dtype $dtype --gpu-memory-utilization $gpu_memory_util --async-scheduling --max-num-batched-tokens 4096"
+    CMD_PLG="PT_HPU_LAZY_MODE=1 vllm serve --host $ip_addr --port $port --model $model_path --max-num-seqs $max_num_seqs --max-model-len $max_model_len --tensor-parallel-size $tensor_parallel_size --gpu-memory-utilization $gpu_memory_util --async-scheduling --max-num-batched-tokens 4096"
     CONFIG_FILE="${model_path}/config.json"
     if grep -qF "\"num_experts\"" "${CONFIG_FILE}"; then
         CMD_PLG="$CMD_PLG --enable-expert-parallel"
