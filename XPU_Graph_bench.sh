@@ -59,7 +59,7 @@ while getopts hm:b:x:n:p:d:i:o: flag; do
 done
 
 start_server(){
-    CMD_PLG="VLLM_USE_V2_MODEL_RUNNER=0 VLLM_USE_BREAKABLE_CUDAGRAPH=1 VLLM_XPU_ENABLE_XPU_GRAPH=1 ZE_AFFINITY_MASK=0,1,2,3 vllm serve $model_path --tensor-parallel-size $tensor_parallel_size --trust-remote-code --port $port --no-enable-prefix-caching --gpu-memory-utilization $gpu_memory_util --max-model-len $max_model_len --max_num_batched_tokens $max_batch_tokens &>server.log &"
+    CMD_PLG="VLLM_USE_V2_MODEL_RUNNER=0 VLLM_USE_BREAKABLE_CUDAGRAPH=1 VLLM_XPU_ENABLE_XPU_GRAPH=1 ZE_AFFINITY_MASK=0,1,2,3 vllm serve $model_path --tensor-parallel-size $tensor_parallel_size --trust-remote-code --port $port --no-enable-prefix-caching --gpu-memory-utilization $gpu_memory_util --max-model-len $max_model_len --max_num_batched_tokens $max_batch_tokens"
     CONFIG_FILE="${model_path}/config.json"
     if grep -qF "\"num_experts\"" "${CONFIG_FILE}"; then
         CMD_PLG="$CMD_PLG --enable-expert-parallel"
