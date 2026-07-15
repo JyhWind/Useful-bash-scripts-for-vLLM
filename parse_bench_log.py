@@ -7,7 +7,7 @@ parent_dir = "."
 
 csv_headers = [
     "model", "cardnumer", "datatype", "dataset", "request_rate",
-    "prompts", "input_len", "output_len", "ratio", "max_concurrency",
+    "prompts", "input_len", "output_len", "max_concurrency",
     "Successful requests", "Benchmark duration (s)", "Total input tokens", "Total generated tokens",
     "Request throughput (req/s)", "Output token throughput (tok/s)",
     "Mean TTFT (ms)", "Median TTFT (ms)", "P90 TTFT (ms)", "P99 TTFT (ms)",
@@ -18,21 +18,33 @@ csv_headers = [
 
 def parse_filename(filename):
     parts = filename.replace(".log", "").split("_")
-    if len(parts) == 21:
-        return {
-            "model": parts[2],
-            "cardnumer": parts[4],
-            "datatype": parts[6],
-            "input_len": parts[8],
-            "output_len": parts[10],
-            "ratio": parts[12],
-            "request_rate": parts[14],
-            "prompts": parts[16],
-            "dataset": parts[17],
-            "max_concurrency": parts[19],
-        }
-    else:
+    if len(parts) < 3:
         return None
+
+    # Map the key token in the filename to the corresponding CSV field name.
+    key_map = {
+        "cardnumber": "cardnumer",
+        "datatype": "datatype",
+        "in": "input_len",
+        "out": "output_len",
+        "rate": "request_rate",
+        "prompts": "prompts",
+        "concurrency": "max_concurrency",
+    }
+
+    result = {"model": parts[2]}
+    for i, token in enumerate(parts[:-1]):
+        if token in key_map:
+            result[key_map[token]] = parts[i + 1]
+        if token == "prompts" and i + 2 < len(parts):
+            # dataset is the token right after the prompts value
+            result["dataset"] = parts[i + 2]
+
+    required = {"cardnumer", "datatype", "input_len", "output_len",
+                "request_rate", "prompts", "dataset", "max_concurrency"}
+    if not required.issubset(result):
+        return None
+    return result
 
 
 def parse_log_content(parent_dir):
@@ -64,17 +76,24 @@ def write_to_csv(output_file, csv_headers, data_rows):
         writer.writerows(data_rows)
 
 def main():
-    output_csv = "serving_bench.csv"
-    if len(sys.argv) == 2:
-        output_csv = "serving_bench_" + sys.argv[1] + ".csv"
+    if len(sys.argv) >= 2:
+        target_dir = sys.argv[1].rstrip(os.sep)
+        if not os.path.isdir(target_dir):
+            print(f"Not a directory: {target_dir}")
+            sys.exit(1)
+        folder_name = os.path.basename(os.path.abspath(target_dir))
+        output_csv = folder_name + ".csv"
+    else:
+        target_dir = parent_dir
+        output_csv = "serving_bench.csv"
 
     data_rows = []
 
-    items = os.listdir(parent_dir)
+    items = os.listdir(target_dir)
     sorted_items = natsorted(items)
     for filename in sorted_items:
         if filename.endswith(".log"):
-            file_path = os.path.join(parent_dir, filename)
+            file_path = os.path.join(target_dir, filename)
 
             conditions = parse_filename(filename)
             if not conditions:
@@ -89,8 +108,8 @@ def main():
             data_row = {**conditions, **results}
             data_rows.append(data_row)
 
-    write_to_csv(os.path.join(parent_dir, output_csv), csv_headers, data_rows)
-    print(f"Results written to {output_csv}")
+    write_to_csv(os.path.join(target_dir, output_csv), csv_headers, data_rows)
+    print(f"Results written to {os.path.join(target_dir, output_csv)}")
 
 if __name__ == "__main__":
     main()
