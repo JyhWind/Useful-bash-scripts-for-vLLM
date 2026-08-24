@@ -1,4 +1,5 @@
 #!/bin/bash
+export no_proxy=127.0.0.1
 
 ip_addr=127.0.0.1
 model_path=/data/Qwen3-30B-A3B/
