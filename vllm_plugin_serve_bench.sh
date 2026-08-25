@@ -6,13 +6,13 @@ model_path=/data/Qwen3-30B-A3B/
 max_num_seqs=128
 max_model_len=10240
 tensor_parallel_size=2
-port=30002
+port=10086
 dtype=bfloat16
 gpu_memory_util=0.9
 
 input=2048
 output=2048
-local_ratio=0.1
+local_ratio=0
 
 Help() {
     echo "vllm_plugin_serve_bench"
